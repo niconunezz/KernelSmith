@@ -15,12 +15,16 @@
 # Precompiled Headers
 *.gch
 *.pch
-
+shit.c
 # Libraries
 *.lib
 *.a
 *.la
 *.lo
+
+venv
+shit.py
+__pycache__
 
 # Shared objects (inc. Windows DLLs)
 *.dll
