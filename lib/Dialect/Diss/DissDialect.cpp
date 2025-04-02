@@ -5,12 +5,15 @@
 #include "mlir/include/mlir/IR/Builders.h"
 #include "llvm/include/llvm/ADT/TypeSwitch.h"
 
+#include "lib/Dialect/Diss/DissOpsEnums.cpp.inc"
+
 #include "lib/Dialect/Diss/DissDialect.cpp.inc"
 #define GET_TYPEDEF_CLASSES
 #include "lib/Dialect/Diss/DissTypes.cpp.inc"
 
 #define GET_OP_CLASSES
 #include "lib/Dialect/Diss/DissOps.cpp.inc"
+
 
 namespace mlir{
 namespace diss{
