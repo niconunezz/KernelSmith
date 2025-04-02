@@ -1,6 +1,5 @@
 include "mlir/IR/AttrTypeBase.td"
-include "lib/Dialect/Diss/DissDialect.td"
-class Diss_Type<string name, string typeMnemonic> : TypeDef<DissDialect, name> {
+class Diss_Type<string name, string typeMnemonic> : TypeDef<Diss_Dialect, name> {
     let mnemonic = typeMnemonic;
 }
 

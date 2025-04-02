@@ -1,7 +1,7 @@
 include "mlir/Pass/PassBase.td"
 include "mlir/IR/DialectBase.td"
 
-def DissDialect : Dialect {
+def Diss_Dialect : Dialect {
   let name = "diss";
   let summary = "A dialect for GPU machine learning ops";
 
