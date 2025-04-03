@@ -1,8 +1,9 @@
 include "mlir/IR/AttrTypeBase.td"
+include "mlir/IR/BuiltinTypeInterfaces.td"
+
 class Diss_Type<string name, string typeMnemonic> : TypeDef<Diss_Dialect, name> {
     let mnemonic = typeMnemonic;
 }
-
 
 def Pointer : Diss_Type<"Pointer", "ptr"> {
   let summary = "A typed pointer type representing device memory addresses";
@@ -24,3 +25,10 @@ def Pointer : Diss_Type<"Pointer", "ptr"> {
   let parameters = (ins "Type":$dtype);
   let assemblyFormat = "`<` $dtype `>`";
 }
+
+def Diss_Int : AnyTypeOf<[I32, I64], "int">;
+def Diss_IntTensor : RankedTensorOf<[Diss_Int]>;
+
+
+// def Diss_Float : AnyTypeOf<[F16, F32]>;
+// def Diss_FloatTensor

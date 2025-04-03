@@ -16,4 +16,12 @@ def Diss_GetId : Op<Diss_Dialect, "get_id"> {
     let assemblyFormat = "attr-dict $coordenate `:` type($pid)";
 }
 
+
+def Diss_Range : Op<Diss_Dialect, "range"> {
+    let arguments = (ins I32Attr:$begin, I32Attr:$end);
+    let results = (outs Diss_IntTensor:$res);
+
+    let assemblyFormat = "attr-dict `:` type($res)";
+}
+
 // #endif
