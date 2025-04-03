@@ -30,5 +30,5 @@ def Diss_Int : AnyTypeOf<[I32, I64], "int">;
 def Diss_IntTensor : RankedTensorOf<[Diss_Int]>;
 
 
-// def Diss_Float : AnyTypeOf<[F16, F32]>;
-// def Diss_FloatTensor
+def Diss_Float : AnyTypeOf<[F16, F32], "float">;
+def Diss_FloatTensor: RankedTensorOf<[Diss_Float]>;
