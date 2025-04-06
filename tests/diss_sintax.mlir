@@ -7,9 +7,9 @@ module {
         
         
         %2 = diss.range {begin = 0 : i32, end = 1024 : i32} : tensor<1024xi32>
-        %3 = diss.expand %arg0 : !diss.ptr<i32> -> tensor<1024xi32>
+        %3 = diss.expand %arg0 : !diss.ptr<i32> -> tensor<1024x!diss.ptr<i32>>
 
-        %4 = arith.addi %1, %1 : i32
-        return %3: tensor<1024xi32>
+        %4 = diss.load %3 : tensor<1024x!diss.ptr<i32>> -> tensor<1024xi32>
+        return %4: tensor<1024xi32>
     } 
 }
