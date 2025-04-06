@@ -34,6 +34,12 @@ def Diss_Load : Op<Diss_Dialect, "load"> {
     let assemblyFormat = "$input attr-dict `:` type($input) `->` type($output)";
 }
 
+def Diss_Store : Op<Diss_Dialect, "save"> {
+    let arguments = (ins Diss_Tensor:$pointers, Diss_Tensor:$value);
+
+    let assemblyFormat = "$pointers `,` $value attr-dict `:` type($pointers) `,` type($value)";
+}
+
 class Diss_BinPtrOps<string mnemonic> : Op<Diss_Dialect, mnemonic> {
     let arguments = (ins Diss_Type:$lhs, Diss_Type:$rhs);
     let results = (outs Diss_PtrObj:$output);
