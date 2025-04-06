@@ -32,3 +32,6 @@ def Diss_IntTensor : RankedTensorOf<[Diss_Int]>;
 
 def Diss_Float : AnyTypeOf<[F16, F32], "float">;
 def Diss_FloatTensor: RankedTensorOf<[Diss_Float]>;
+
+
+def Diss_Type : AnyTypeOf<[Diss_Int, Pointer, Diss_Float]>;

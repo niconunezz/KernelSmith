@@ -24,4 +24,9 @@ def Diss_Range : Op<Diss_Dialect, "range"> {
     let assemblyFormat = "attr-dict `:` type($res)";
 }
 
-// #endif
+def Diss_Expand : Op<Diss_Dialect, "expand"> {
+    let arguments = (ins Diss_Type:$input);
+    let results = (outs Diss_IntTensor:$res);
+
+    let assemblyFormat = "$input attr-dict `:` type($input) `->` type($res)";
+}
