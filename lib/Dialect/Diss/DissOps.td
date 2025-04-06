@@ -33,3 +33,11 @@ def Diss_Load : Op<Diss_Dialect, "load"> {
     let results = (outs Diss_Tensor:$output);
     let assemblyFormat = "$input attr-dict `:` type($input) `->` type($output)";
 }
+
+class Diss_BinPtrOps<string mnemonic> : Op<Diss_Dialect, mnemonic> {
+    let arguments = (ins Diss_Type:$lhs, Diss_Type:$rhs);
+    let results = (outs Diss_PtrObj:$output);
+
+    let assemblyFormat = "$lhs `,` $rhs attr-dict `:` type($lhs) `,` type($rhs) `->` type($output)";
+}
+def Diss_SumPointer : Diss_BinPtrOps<"sum_ptr"> {}

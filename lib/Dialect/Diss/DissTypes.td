@@ -23,6 +23,8 @@ def Diss_Pointer : Diss_Type<"Diss_Pointer", "ptr"> {
 
 def Diss_PtrTensor : RankedTensorOf<[Diss_Pointer]>;
 
+def Diss_PtrObj : AnyTypeOf<[Diss_Pointer, Diss_PtrTensor]>;
+
 def Diss_Int : AnyTypeOf<[I32, I64], "int">;
 def Diss_IntTensor : RankedTensorOf<[Diss_Int]>;
 
@@ -33,6 +35,6 @@ def Diss_FloatTensor: RankedTensorOf<[Diss_Float]>;
 def Diss_Tensor : AnyTypeOf<[Diss_IntTensor, Diss_FloatTensor, Diss_PtrTensor]>;
 
 
-def Diss_Type : AnyTypeOf<[Diss_Int, Diss_Pointer, Diss_Float]>;
+def Diss_Type : AnyTypeOf<[Diss_Int, Diss_Pointer, Diss_Float, Diss_IntTensor, Diss_FloatTensor, Diss_PtrTensor]>;
 
 // def Diss

@@ -8,8 +8,8 @@ module {
         
         %2 = diss.range {begin = 0 : i32, end = 1024 : i32} : tensor<1024xi32>
         %3 = diss.expand %arg0 : !diss.ptr<i32> -> tensor<1024x!diss.ptr<i32>>
-
-        %4 = diss.load %3 : tensor<1024x!diss.ptr<i32>> -> tensor<1024xi32>
-        return %4: tensor<1024xi32>
+        %4 = diss.sum_ptr %2, %3 : tensor<1024xi32>, tensor<1024x!diss.ptr<i32>> -> tensor<1024x!diss.ptr<i32>>
+        %5 = diss.load %4 : tensor<1024x!diss.ptr<i32>> -> tensor<1024xi32>
+        return %5: tensor<1024xi32>
     } 
 }
