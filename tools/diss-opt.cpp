@@ -1,4 +1,4 @@
-#include "lib/Dialect/Diss/DissDialect.h"
+#include "lib/Dialect/Diss/Dialect/DissDialect.h"
 #include "mlir/include/mlir/InitAllDialects.h"
 #include "mlir/include/mlir/InitAllPasses.h"
 #include "mlir/include/mlir/Pass/PassManager.h"

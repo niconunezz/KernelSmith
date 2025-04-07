@@ -34,7 +34,7 @@ def Diss_FloatTensor: RankedTensorOf<[Diss_Float]>;
 
 def Diss_Tensor : AnyTypeOf<[Diss_IntTensor, Diss_FloatTensor, Diss_PtrTensor]>;
 
-
+def Diss_Scalar : AnyTypeOf<[Diss_Int, Diss_Float, Diss_Pointer]>;
 def Diss_Type : AnyTypeOf<[Diss_Int, Diss_Pointer, Diss_Float, Diss_IntTensor, Diss_FloatTensor, Diss_PtrTensor]>;
 
 // def Diss

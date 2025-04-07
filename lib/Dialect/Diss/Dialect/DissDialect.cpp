@@ -1,18 +1,18 @@
-#include "lib/Dialect/Diss/DissDialect.h"
-#include "lib/Dialect/Diss/DissOps.h"
-#include "lib/Dialect/Diss/DissTypes.h"
+#include "lib/Dialect/Diss/Dialect/DissDialect.h"
+#include "lib/Dialect/Diss/Dialect/DissOps.h"
+#include "lib/Dialect/Diss/Dialect/DissTypes.h"
 
 #include "mlir/include/mlir/IR/Builders.h"
 #include "llvm/include/llvm/ADT/TypeSwitch.h"
 
-#include "lib/Dialect/Diss/DissOpsEnums.cpp.inc"
+#include "lib/Dialect/Diss/Dialect/DissOpsEnums.cpp.inc"
 
-#include "lib/Dialect/Diss/DissDialect.cpp.inc"
+#include "lib/Dialect/Diss/Dialect/DissDialect.cpp.inc"
 #define GET_TYPEDEF_CLASSES
-#include "lib/Dialect/Diss/DissTypes.cpp.inc"
+#include "lib/Dialect/Diss/Dialect/DissTypes.cpp.inc"
 
 #define GET_OP_CLASSES
-#include "lib/Dialect/Diss/DissOps.cpp.inc"
+#include "lib/Dialect/Diss/Dialect/DissOps.cpp.inc"
 
 
 namespace mlir{
