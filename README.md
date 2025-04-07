@@ -59,5 +59,8 @@ After successful compilation, you'll find the `kernelsmith` compiler binary in t
 - `tools/` - Command-line interface tools
 - `tests/` - Test cases and regression tests
 
+## Credits
+A lot of this code is based on Open AI;s Triton compiler and other open source compilers.
+
 ## License
 This project is licensed under the Apache 2.0 License - see the LICENSE file for details.
