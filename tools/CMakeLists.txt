@@ -7,6 +7,7 @@ set (LIBS
     MLIRDiss
     MLIROptLib
     MLIRPass
+    Passes
     ortools::ortools
 )
 
