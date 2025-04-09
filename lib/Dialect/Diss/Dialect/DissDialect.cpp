@@ -21,12 +21,12 @@ namespace diss{
     void DissDialect::initialize() {
         addTypes<
 #define GET_TYPEDEF_LIST
-#include "lib/Dialect/Diss/DissTypes.cpp.inc"
+#include "lib/Dialect/Diss/Dialect/DissTypes.cpp.inc"
         >();
         
         addOperations<
 #define GET_OP_LIST
-#include "lib/Dialect/Diss/DissOps.cpp.inc"
+#include "lib/Dialect/Diss/Dialect/DissOps.cpp.inc"
         >();
     }
     
