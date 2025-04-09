@@ -30,19 +30,15 @@ struct ReorderElementwiseBroadcastPattern : public OpTraitRewritePattern<OpTrait
         
         auto operands = op->getOperands();
         bool seenBroadcast = false;
-        ArrayRef<int64_t> srcShape;
+
         for (auto operand : operands) {
             auto definingOp = operand.getDefiningOp();
             if (!definingOp) {
                 return failure();
             }
-            auto getSrcShape = [](Broadcast b) {
-                return b.getInput().getType().getShape();
-            };
-
+            
             if (auto broadcastOp = llvm::dyn_cast<Broadcast>(definingOp)){
                 seenBroadcast = true;
-                srcShape = getSrcShape(broadcastOp);
             }
 
         }
@@ -75,6 +71,10 @@ struct ReorderElementwiseBroadcastPattern : public OpTraitRewritePattern<OpTrait
             }
         }
 
+        /*
+        newOperands :=  tensor<128x1xf32> y tensor<128x1xf32>
+        */
+
         // changing tensor size to pre-broadcast 
         llvm::SmallVector<Type, 4> newResultTypes;
         auto resultTypes = op->getResultTypes(); // group of tensors
@@ -85,6 +85,10 @@ struct ReorderElementwiseBroadcastPattern : public OpTraitRewritePattern<OpTrait
             );
         }
         
+         /*
+        newResultTypes :=  tensor<128x1xf32>
+        */
+
         OperationState newElementwise(op->getLoc(), op->getName());
         newElementwise.addOperands(newOperands);
         newElementwise.addTypes(newResultTypes);
@@ -92,8 +96,10 @@ struct ReorderElementwiseBroadcastPattern : public OpTraitRewritePattern<OpTrait
 
         auto newOp = rewriter.create(newElementwise); // with pre-broadcast shape and broadcast inputs
         
+        
         auto newRes = rewriter.create<Broadcast>(loc, resultTypes[0], newOp->getResult(0));
         rewriter.replaceOp(op, newRes);
+        
 
         for (auto operand : operands) {
             auto defOp = operand.getDefiningOp();
@@ -101,7 +107,6 @@ struct ReorderElementwiseBroadcastPattern : public OpTraitRewritePattern<OpTrait
                 rewriter.eraseOp(defOp);
             }
         }
-
 
         return success();
     }
