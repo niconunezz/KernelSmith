@@ -32,7 +32,7 @@ def Diss_IntTensor : RankedTensorOf<[Diss_Int]>;
 def Diss_Float : AnyTypeOf<[F16, F32], "float">;
 def Diss_FloatTensor: RankedTensorOf<[Diss_Float]>;
 
-def Diss_Tensor : AnyTypeOf<[Diss_IntTensor, Diss_FloatTensor, Diss_PtrTensor]>;
+def Diss_Tensor : RankedTensorOf<[Diss_Int, Diss_Float, Diss_Pointer]>;
 
 def Diss_Scalar : AnyTypeOf<[Diss_Int, Diss_Float, Diss_Pointer]>;
 def Diss_Type : AnyTypeOf<[Diss_Int, Diss_Pointer, Diss_Float, Diss_IntTensor, Diss_FloatTensor, Diss_PtrTensor]>;
