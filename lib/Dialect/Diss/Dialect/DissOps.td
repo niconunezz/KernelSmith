@@ -22,6 +22,12 @@ def Diss_Range : Op<Diss_Dialect, "range", [Pure]> {
     let assemblyFormat = "attr-dict `:` type($res)";
 }
 
+def Diss_PtrToInt : Op<Diss_Dialect, "ptr_to_int", [Elementwise]> {
+    let arguments = (ins Diss_PtrTensor:$src);
+    let results = (outs Diss_IntTensor:$out);
+    let assemblyFormat = "$src attr-dict `:` type($src) `->` type($out)";
+}
+
 def Diss_Expand : Op<Diss_Dialect, "expand"> {
     let arguments = (ins Diss_Scalar:$input);
     let results = (outs Diss_Tensor:$res);
