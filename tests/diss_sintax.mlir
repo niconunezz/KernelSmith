@@ -23,6 +23,18 @@ module {
         %14 = diss.expand %arg2: !diss.ptr<i32> -> tensor<1024x!diss.ptr<i32>>
         %15 = diss.sum_ptr %14, %5 :  tensor<1024x!diss.ptr<i32>>, tensor<1024xi32> -> tensor<1024x!diss.ptr<i32>>
         diss.save %15, %13 : tensor<1024x!diss.ptr<i32>>, tensor<1024xi32>
+
+
+        // just stuff
+        %16 = diss.range {begin = 0 : i32, end = 1024 : i32} : tensor<1024x1xi32>
+        %17 = diss.broadcast %16: tensor<1024x1xi32> -> tensor<1024x1024xi32>
+
+        %18 = diss.ptr_to_int %7 : tensor<1024x!diss.ptr<i32>> -> tensor<1024xi32>
+
+
+        %19 = diss.expand %arg0: !diss.ptr<i32> -> tensor<1024x1x!diss.ptr<i32>>
+        %20 = diss.broadcast %19: tensor<1024x1x!diss.ptr<i32>> -> tensor<1024x1024x!diss.ptr<i32>> 
+        %21 = diss.ptr_to_int %20 : tensor<1024x1024x!diss.ptr<i32>> -> tensor<1024x1024xi32>
         return %5: tensor<1024xi32>
     } 
 }
