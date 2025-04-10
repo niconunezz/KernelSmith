@@ -30,6 +30,11 @@ struct ReorderElementwiseBroadcastPattern : public OpTraitRewritePattern<OpTrait
         
         auto operands = op->getOperands();
         bool seenBroadcast = false;
+        ArrayRef<int64_t> shape;
+
+        auto getInputShape = [&](Broadcast operation){
+            return operation.getInput().getType().getShape();
+        };
 
         for (auto operand : operands) {
             auto definingOp = operand.getDefiningOp();
@@ -38,10 +43,20 @@ struct ReorderElementwiseBroadcastPattern : public OpTraitRewritePattern<OpTrait
             }
             
             if (auto broadcastOp = llvm::dyn_cast<Broadcast>(definingOp)){
-                seenBroadcast = true;
+
+                if (!seenBroadcast){
+                    seenBroadcast = true;
+                    shape = getInputShape(broadcastOp);
+
+                }else if (shape != getInputShape(broadcastOp)){
+
+                    return failure();
+                }
             }
+            
 
         }
+
 
         if (!seenBroadcast){
             return failure();
@@ -99,14 +114,17 @@ struct ReorderElementwiseBroadcastPattern : public OpTraitRewritePattern<OpTrait
         
         auto newRes = rewriter.create<Broadcast>(loc, resultTypes[0], newOp->getResult(0));
         rewriter.replaceOp(op, newRes);
-        
 
-        for (auto operand : operands) {
-            auto defOp = operand.getDefiningOp();
-            if (auto broadcastInputOp = llvm::dyn_cast<Broadcast>(defOp)){
-                rewriter.eraseOp(defOp);
-            }
-        }
+
+        // for (auto operand : operands) {
+        //     auto defOp = operand.getDefiningOp();
+        //     if (auto broadcastInputOp = llvm::dyn_cast<Broadcast>(defOp)){
+                
+        //         rewriter.eraseOp(defOp);
+
+                
+        //     }
+        // }
 
         return success();
     }
