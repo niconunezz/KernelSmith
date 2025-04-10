@@ -28,13 +28,13 @@ def Diss_PtrToInt : Op<Diss_Dialect, "ptr_to_int", [Elementwise]> {
     let assemblyFormat = "$src attr-dict `:` type($src) `->` type($out)";
 }
 
-def Diss_Expand : Op<Diss_Dialect, "expand"> {
+def Diss_Expand : Op<Diss_Dialect, "expand", [Pure, SameOperandsAndResultElementType]> {
     let arguments = (ins Diss_Scalar:$input);
     let results = (outs Diss_Tensor:$res);
     let assemblyFormat = "$input attr-dict `:` type($input) `->` type($res)";
 }
 
-def Diss_Broadcast : Op<Diss_Dialect, "broadcast"> {
+def Diss_Broadcast : Op<Diss_Dialect, "broadcast", [Pure, SameOperandsAndResultElementType]> {
     let arguments = (ins Diss_Tensor:$input);
     let results = (outs Diss_Tensor:$res);
     let assemblyFormat = "$input attr-dict `:` type($input) `->` type($res)";
