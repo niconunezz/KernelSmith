@@ -20,6 +20,52 @@
 namespace mlir{
 namespace diss{
 
+struct ReorderElementwiseExpandPattern : public OpTraitRewritePattern<OpTrait::Elementwise>{
+    ReorderElementwiseExpandPattern(MLIRContext *context) : OpTraitRewritePattern(context){}
+
+    LogicalResult matchAndRewrite(Operation *op, PatternRewriter &rewriter) const override {
+
+        auto loc = op->getLoc();
+        auto operands = op->getOperands();
+        
+        
+        llvm::SmallVector<Value, 4> newOperands;
+        bool seenExpand = false;
+        for (auto operand : operands) {
+            auto defOp = operand.getDefiningOp();
+            if (!defOp) {
+                return failure();
+            }
+            if (auto expOp = llvm::dyn_cast<Expand>(defOp)){
+                seenExpand = true;
+                newOperands.push_back(expOp.getInput());
+            }
+        }
+        if (!seenExpand) {
+            return failure();
+        }
+        llvm::SmallVector<Type, 4> newResTy;
+        auto resultTypes = op->getResultTypes();
+        for (auto ty : resultTypes) {
+            auto elemTy = llvm::dyn_cast<RankedTensorType>(ty).getElementType();
+            newResTy.push_back(elemTy);
+            
+        }
+        OperationState newElementwise(op->getLoc(), op->getName());
+        newElementwise.addOperands(newOperands);
+        newElementwise.addTypes(newResTy);
+        newElementwise.addAttributes(op->getAttrs());
+
+        auto newOp = rewriter.create(newElementwise);
+
+        auto newRes = rewriter.create<Expand>(loc, resultTypes[0], newOp->getResult(0));
+
+        rewriter.replaceOp(op, newRes);
+        return success();
+
+    }
+};
+
 
 // elementwise(broadcast(a)) -> broadcast(elementwise(a))
 struct ReorderElementwiseBroadcastPattern : public OpTraitRewritePattern<OpTrait::Elementwise>{
@@ -140,6 +186,8 @@ class ReorderElementWisePass : public ::impl::ReorderElementWiseBase<ReorderElem
         auto *module = getOperation();
 
         patterns.add<ReorderElementwiseBroadcastPattern>(context);
+        patterns.add<ReorderElementwiseExpandPattern>(context);
+
 
         if (applyPatternsGreedily(module, std::move(patterns)).failed())
       signalPassFailure();
@@ -150,6 +198,8 @@ class ReorderElementWisePass : public ::impl::ReorderElementWiseBase<ReorderElem
 std::unique_ptr<mlir::Pass> createReorderElementWise() {
     return std::make_unique<ReorderElementWisePass>();
 }
+
+
 
 } // namespace diss
 } // namespace mlir

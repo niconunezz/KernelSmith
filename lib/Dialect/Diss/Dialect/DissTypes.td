@@ -22,11 +22,14 @@ def Diss_Pointer : Diss_Type<"Diss_Pointer", "ptr"> {
 }
 
 def Diss_PtrTensor : RankedTensorOf<[Diss_Pointer]>;
+def Diss_AllPtr : AnyTypeOf<[Diss_Pointer, Diss_PtrTensor]>;
+
 
 def Diss_PtrObj : AnyTypeOf<[Diss_Pointer, Diss_PtrTensor]>;
 
 def Diss_Int : AnyTypeOf<[I32, I64], "int">;
 def Diss_IntTensor : RankedTensorOf<[Diss_Int]>;
+def Diss_AllInt : AnyTypeOf<[Diss_Int, Diss_IntTensor]>;
 
 
 def Diss_Float : AnyTypeOf<[F16, F32], "float">;

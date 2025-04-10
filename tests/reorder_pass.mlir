@@ -27,5 +27,19 @@ module {
   
 
         return %mul, %mul1 : tensor<128x128xf32>, tensor<128x128xf32>
-}
+        
+    }
+
+
+    func.func @test_expand_elementwise_pattern(%arg0: f32) -> (tensor<128x128x!diss.ptr<f32>>) {
+    %c1 = arith.constant 1 : i64
+
+    // CHECK: diss.int_to_ptr %[[c1:.*]] : i64 -> !diss.ptr<f32>
+    // CHECK-NEXT: %{{.*}} = diss.expand %[[ptr:.*]] : !diss.ptr<f32> -> tensor<128x128x!diss.ptr<f32>>
+    %c1_t = diss.expand %c1 : i64 -> tensor<128x128xi64>
+    %ptr = diss.int_to_ptr %c1_t : tensor<128x128xi64> -> tensor<128x128x!diss.ptr<f32>>
+
+    return %ptr : tensor<128x128x!diss.ptr<f32>>
+    }
+
 }

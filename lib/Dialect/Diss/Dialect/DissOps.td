@@ -23,8 +23,14 @@ def Diss_Range : Op<Diss_Dialect, "range", [Pure]> {
 }
 
 def Diss_PtrToInt : Op<Diss_Dialect, "ptr_to_int", [Elementwise]> {
-    let arguments = (ins Diss_PtrTensor:$src);
-    let results = (outs Diss_IntTensor:$out);
+    let arguments = (ins Diss_AllPtr:$src);
+    let results = (outs Diss_AllInt:$out);
+    let assemblyFormat = "$src attr-dict `:` type($src) `->` type($out)";
+}
+
+def Diss_IntToPtr : Op<Diss_Dialect, "int_to_ptr", [Elementwise, Pure]> {
+    let arguments = (ins Diss_AllInt:$src);
+    let results = (outs Diss_AllPtr:$out);
     let assemblyFormat = "$src attr-dict `:` type($src) `->` type($out)";
 }
 
