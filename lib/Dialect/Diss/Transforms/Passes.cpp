@@ -2,6 +2,7 @@
 #include "lib/Dialect/Diss/Dialect/DissTypes.h"
 #include "lib/Dialect/Diss/Dialect/DissDialect.h"
 #include "lib/Dialect/Diss/Transforms/Passes.h"
+#include "mlir/include/mlir/Dialect/Arith/IR/Arith.h"
 
 #include "mlir/IR/PatternMatch.h"
 #include "mlir/IR/BuiltinAttributes.h"
@@ -20,6 +21,7 @@
 namespace mlir{
 namespace diss{
 
+
 struct ReorderElementwiseExpandPattern : public OpTraitRewritePattern<OpTrait::Elementwise>{
     ReorderElementwiseExpandPattern(MLIRContext *context) : OpTraitRewritePattern(context){}
 
@@ -33,12 +35,18 @@ struct ReorderElementwiseExpandPattern : public OpTraitRewritePattern<OpTrait::E
         bool seenExpand = false;
         for (auto operand : operands) {
             auto defOp = operand.getDefiningOp();
+
+            DenseElementsAttr constAttr;
             if (!defOp) {
                 return failure();
             }
             if (auto expOp = llvm::dyn_cast<Expand>(defOp)){
                 seenExpand = true;
                 newOperands.push_back(expOp.getInput());
+            }
+            else if ((matchPattern(defOp, m_Constant(&constAttr)) && (constAttr.isSplat()))){
+                auto value = constAttr.getSplatValue<Attribute>();
+                newOperands.push_back(arith::ConstantOp::materialize(rewriter, value, constAttr.getElementType(), loc));
             }
         }
         if (!seenExpand) {
