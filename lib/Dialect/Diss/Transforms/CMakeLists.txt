@@ -1,7 +1,7 @@
 add_mlir_library(Passes
 Passes.cpp
 
-${PROJECT_SOURCE_DIR}/lib/Conversion/
+${PROJECT_SOURCE_DIR}/lib/Dialect/Diss/Transforms
 ADDITIONAL_HEADER_DIRS
 
 DEPENDS

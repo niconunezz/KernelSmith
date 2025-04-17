@@ -22,9 +22,8 @@ add_mlir_dialect_library(MLIRDiss
     DissDialect.cpp
     DissOps.cpp
 
-
     ADDITIONAL_HEADER_DIRS
-    ${PROJECT_SOURCE_DIR}/lib/Dialect/Diss
+    ${PROJECT_SOURCE_DIR}/lib/Dialect/Diss/Dialect
 
     LINK_LIBS PUBLIC
     MLIRIR
