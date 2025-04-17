@@ -1,5 +1,7 @@
 #include "lib/Dialect/Diss/Transforms/Passes.h"
-#include "lib/Dialect/Diss/Dialect/DissDialect.h"  
+#include "lib/Dialect/Diss/Dialect/DissDialect.h"
+#include "lib/Dialect/DissGPU/Dialect/DissGPUDialect.h"
+
 #include "mlir/include/mlir/InitAllDialects.h"
 #include "mlir/include/mlir/InitAllPasses.h"
 #include "mlir/include/mlir/Pass/PassManager.h"
@@ -10,6 +12,8 @@
 int main(int argc, char **argv){
     mlir::DialectRegistry registry;
     registry.insert<mlir::diss::DissDialect>();
+    registry.insert<mlir::dissGPU::DissGPUDialect>();
+
     mlir::registerAllDialects(registry);
 
     mlir::registerAllPasses();
